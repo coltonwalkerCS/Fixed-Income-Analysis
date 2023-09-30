@@ -1,6 +1,6 @@
 import unittest
 from fixedIncomeModels import macaulayDuration, modifiedDuration
-
+from DCFModels import singlePeriodDCFModel, multiPeriodDCFModel
 
 class fixedIncomeItem:
 
@@ -32,3 +32,21 @@ class FixedIncomeModelTest(unittest.TestCase):
     def test_modifided_duration(self):
         values = self.fixedIncomeTestEx1.getItemParams()
         self.assertEqual(modifiedDuration(values[0], values[1], values[2], values[3], 1), 4.43)
+
+
+class DCFModelsTest(unittest.TestCase):
+
+    def setUp(self):
+        self.CF = 1000000
+        self.discountRate_TextEx1 = 0.05
+        self.time_period = 5
+        self.estimated_CF_TestEx2 = [1000000, 1000000, 4000000, 4000000, 6000000]
+        self.discountRate_TestEx2 = 0.05
+
+    def test_singlePeriodDCF(self):
+        estimatedFutureCF = singlePeriodDCFModel(self.CF, self.discountRate_TextEx1, self.time_period)
+        self.assertEqual(estimatedFutureCF, 783526.17)
+
+    def test_multiPeriodDCF(self):
+        estimatedFutureCF = multiPeriodDCFModel(self.estimated_CF_TestEx2, self.discountRate_TestEx2)
+        self.assertEqual(estimatedFutureCF, 13306727.72)
